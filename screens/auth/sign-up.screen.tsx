@@ -9,6 +9,9 @@ import { router } from "expo-router";
 import { AntDesign, Entypo, Fontisto, Ionicons, SimpleLineIcons } from "@expo/vector-icons";
 import { commonStyles } from "@/styles/common/common.styles";
 import { Toast } from "react-native-toast-notifications";
+import axios from "axios";
+import { URL_SERVER } from "@/utils/url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
     signInImage: {
@@ -147,9 +150,14 @@ const SignUpScreen = () => {
         try {
             let isValidEmail = handleEmailValidation(email);
             let isValidPassword = handlePasswordValidation(password);
-            console.log(error);
             if (isValidEmail && isValidPassword) {
-                Toast.show("Đăng ký thành công. Vui lòng kích hoạt tài khoản", {
+                const response = await axios.post(`${URL_SERVER}/registration`, {
+                    name: name,
+                    email: email,
+                    password: password
+                });
+                await AsyncStorage.setItem("activation_token", response.data.activationToken);
+                Toast.show(response.data.message, {
                     type: 'success'
                 });
                 setUserInfo({ ...userInfo, name: "", email: "", password: "" });

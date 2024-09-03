@@ -10,6 +10,9 @@ import { commonStyles } from "@/styles/common/common.styles";
 import { useState } from "react";
 import { router } from "expo-router";
 import axios from "axios";
+import { URL_SERVER } from "@/utils/url";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Toast } from "react-native-toast-notifications";
 const styles = StyleSheet.create({
     signInImage: {
         width: "60%",
@@ -111,10 +114,27 @@ const SignInScreen = () => {
     const OnHandleSignIn = async () => {
         setButtonSpinner(true);
         const isValid = handlePasswordValidation(userInfo.password);
-        if (isValid) {
-
-        } else {
-
+        try {
+            let { email, password } = userInfo;
+            if (isValid) {
+                const response = await axios.post(`${URL_SERVER}/login`, {
+                    email: email,
+                    password: password
+                });
+                await AsyncStorage.setItem("access_token", response.data.access_token);
+                await AsyncStorage.setItem("refresh_token", response.data.refresh_token);
+                Toast.show("Đăng nhập thành công", {
+                    type: "success"
+                });
+                // router.push("/(tabs)");
+            }
+        } catch (error) {
+            console.log(error);
+            Toast.show("Email hoặc mật khâu không chính xác!", {
+                type: "danger"
+            });
+        } finally {
+            setButtonSpinner(false);
         }
     }
 
