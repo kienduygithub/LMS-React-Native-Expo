@@ -109,10 +109,13 @@ const SignInScreen = () => {
     }
 
     const OnHandleSignIn = async () => {
-        console.log(">>> Thông tin: ");
-        console.log(userInfo);
-        const isValidPassword = handlePasswordValidation(userInfo.password);
-        console.log(isValidPassword);
+        setButtonSpinner(true);
+        const isValid = handlePasswordValidation(userInfo.password);
+        if (isValid) {
+
+        } else {
+
+        }
     }
 
     let [fontsLoaded, fontsError] = useFonts({
