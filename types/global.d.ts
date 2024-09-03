@@ -6,3 +6,5 @@ type onboardingSwiperDataType = {
     sortDescription2?: string;
     image: any;
 }
+
+declare module "*.png";
