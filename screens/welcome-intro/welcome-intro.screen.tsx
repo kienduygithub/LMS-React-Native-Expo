@@ -4,7 +4,6 @@ import {
     Nunito_600SemiBold
 } from "@expo-google-fonts/nunito";
 import { useFonts, Raleway_700Bold } from "@expo-google-fonts/raleway";
-import { LinearGradient } from "expo-linear-gradient";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { onboardingSwiperData } from "@/constants/constants";
 import { router } from "expo-router";
