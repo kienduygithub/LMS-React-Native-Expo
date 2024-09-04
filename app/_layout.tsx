@@ -3,7 +3,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
-import { LogBox, View } from 'react-native';
+import { View } from 'react-native';
 import OnBoarding from './(routes)/onboard';
 import { Stack } from 'expo-router';
 import { ToastProvider } from 'react-native-toast-notifications';
@@ -37,11 +37,6 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
-
-  useEffect(() => {
-    LogBox.ignoreAllLogs(true);
-  }, []);
-
 
   return <RootLayoutNav />;
 }

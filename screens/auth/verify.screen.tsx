@@ -1,3 +1,4 @@
+import CustomButton from "@/components/custom_button";
 import { URL_SERVER } from "@/utils/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -29,6 +30,9 @@ const styles = StyleSheet.create({
     inputContainer: {
         flexDirection: "row",
         marginBottom: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingLeft: 12
     },
     inputBox: {
         width: 60,
@@ -92,41 +96,39 @@ const VerifyAccountScreen = () => {
     }
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <ScrollView style={{ flex: 1 }}>
-                <View style={[styles.container, { height: 600 }]}>
-                    <Text style={styles.headerText}>Kích hoạt tài khoản</Text>
-                    <Text style={styles.subText}>
-                        Chúng tôi đã gửi mã kích hoạt tới địa chỉ email của bạn
-                    </Text>
-                    <View style={styles.inputContainer}>
-                        {code.map((_, index) => (
-                            <TextInput
-                                key={index}
-                                style={styles.inputBox}
-                                keyboardType="number-pad"
-                                maxLength={1}
-                                onChangeText={(text) => handleInput(text, index)}
-                                value={code[index]}
-                                ref={inputs.current[index]}
-                                autoFocus={index === 0}
-                            />
-                        ))}
-                    </View>
-                    <View style={{ marginTop: 10 }}>
-                        <Button title="Submit" onPress={() => OnHandleSubmit()} />
-                    </View>
-                    <View style={styles.loginLink}>
-                        <Text style={[styles.backText, { fontFamily: "Nunito_700Bold" }]}>
-                            Quay lại?
-                        </Text>
-                        <TouchableOpacity onPress={() => router.back()}>
-                            <Text style={[styles.loginText, { fontFamily: "Nunito_700Bold" }]}>
-                                Đăng nhập
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+            <View style={[styles.container]}>
+                <Text style={styles.headerText}>Kích hoạt tài khoản</Text>
+                <Text style={styles.subText}>
+                    Chúng tôi đã gửi mã kích hoạt tới địa chỉ email của bạn
+                </Text>
+                <View style={styles.inputContainer}>
+                    {code.map((_, index) => (
+                        <TextInput
+                            key={index}
+                            style={styles.inputBox}
+                            keyboardType="number-pad"
+                            maxLength={1}
+                            onChangeText={(text) => handleInput(text, index)}
+                            value={code[index]}
+                            ref={inputs.current[index]}
+                            autoFocus={index === 0}
+                        />
+                    ))}
                 </View>
-            </ScrollView>
+                <View style={{ marginTop: 10, justifyContent: "center", alignItems: "center" }} >
+                    <CustomButton title="Submit" onPress={() => OnHandleSubmit()} />
+                </View>
+                <View style={styles.loginLink}>
+                    <Text style={[styles.backText, { fontFamily: "Nunito_700Bold" }]}>
+                        Quay lại?
+                    </Text>
+                    <TouchableOpacity onPress={() => router.push("/(routes)/sign-in")}>
+                        <Text style={[styles.loginText, { fontFamily: "Nunito_700Bold" }]}>
+                            Đăng nhập
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </SafeAreaView>
     )
 }

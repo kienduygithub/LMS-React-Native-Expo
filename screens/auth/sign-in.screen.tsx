@@ -10,9 +10,10 @@ import { commonStyles } from "@/styles/common/common.styles";
 import { useState } from "react";
 import { router } from "expo-router";
 import axios from "axios";
-import { URL_SERVER } from "@/utils/url";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Toast } from "react-native-toast-notifications";
+import { URL_SERVER } from "@/utils/url";
+
 const styles = StyleSheet.create({
     signInImage: {
         width: "60%",
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
 });
 
 const SignInScreen = () => {
-
+    const URL_SERVER_ENV = process.env.EXPO_PUBLIC_URL_SERVER;
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [buttonSpinner, setButtonSpinner] = useState(false);
     const [userInfo, setUserInfo] = useState({
@@ -121,11 +122,12 @@ const SignInScreen = () => {
                     email: email,
                     password: password
                 });
-                await AsyncStorage.setItem("access_token", response.data.access_token);
-                await AsyncStorage.setItem("refresh_token", response.data.refresh_token);
+                await AsyncStorage.setItem("access_token", response.data.accessToken);
+                await AsyncStorage.setItem("refresh_token", response.data.refreshToken);
                 Toast.show("Đăng nhập thành công", {
                     type: "success"
                 });
+
                 // router.push("/(tabs)");
             }
         } catch (error) {

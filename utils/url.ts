@@ -1,1 +1,1 @@
-export const URL_SERVER = "https://ls-server.onrender.com/api/v1";
+export const URL_SERVER = "http://172.16.88.21:8000/api/v1";
