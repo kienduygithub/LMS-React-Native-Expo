@@ -34,3 +34,5 @@ const useUser = () => {
 
     return { loading, user, error, setRefetch, refetch };
 }
+
+export default useUser;

@@ -128,7 +128,7 @@ const SignInScreen = () => {
                     type: "success"
                 });
 
-                // router.push("/(tabs)");
+                router.push("/(tabs)");
             }
         } catch (error) {
             console.log(error);
