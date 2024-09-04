@@ -1,0 +1,125 @@
+import { URL_SERVER } from "@/utils/url";
+import { Nunito_700Bold } from "@expo-google-fonts/nunito";
+import axios from "axios";
+import { useFonts } from "expo-font";
+import { router } from "expo-router";
+import { useEffect, useState } from "react"
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { widthPercentageToDP } from "react-native-responsive-screen";
+
+const styles = StyleSheet.create({
+    filteringContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginHorizontal: 16,
+    },
+
+    searchContainer: {
+        flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "white",
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginRight: 10,
+    },
+
+    searchIconContainer: {
+        width: 36,
+        height: 36,
+        backgroundColor: "#2467EC",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 4,
+    },
+
+    input: {
+        flex: 1,
+        fontSize: 14,
+        color: "black",
+        paddingVertical: 10,
+        width: 271,
+        height: 48,
+    },
+});
+
+const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
+    const [value, setValue] = useState("");
+    const [courses, setCourses] = useState([]);
+    const [filterdCourses, setFilteredCourses] = useState([]);
+
+    useEffect(() => {
+        loadAllCourses();
+    }, []);
+
+    const loadAllCourses = async () => {
+        try {
+            const response = await axios.get(`${URL_SERVER}/get-courses`);
+            setCourses(response.data.courses);
+            if (!homeScreen) {
+                setFilteredCourses(response.data.courses);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        if (homeScreen && value === "") {
+            setFilteredCourses([]);
+        } else if (value) {
+            const filterd = courses.filter((course: CoursesType) => course.name.toLowerCase().includes(value.toLowerCase()));
+            setFilteredCourses(filterd);
+        } else if (!homeScreen) {
+            setFilteredCourses(courses);
+        }
+    }, [value, courses])
+
+    let [fontsLoaded, fontError] = useFonts({
+        Nunito_700Bold,
+    });
+
+    if (!fontsLoaded && !fontError) {
+        return null;
+    }
+
+    const renderCourseItem = ({ item }: { item: CoursesType }) => (
+        <TouchableOpacity
+            style={{
+                backgroundColor: "#fff",
+                padding: 10,
+                width: widthPercentageToDP("90%"),
+                marginLeft: "1.5%",
+                flexDirection: "row"
+            }}
+            onPress={() => router.push({
+                pathname: "/(routes)/course-details",
+                params: { item: JSON.stringify(item) }
+            })}
+        >
+            <Image
+                source={{ uri: item.thumbnail.url }}
+                style={{ width: 60, height: 60, borderRadius: 10 }}
+            />
+            <Text
+                style={{
+                    fontSize: 14,
+                    paddingLeft: 10,
+                    width: widthPercentageToDP("75%")
+                }}
+            >
+                {item.name}
+            </Text>
+        </TouchableOpacity>
+    )
+
+    return (
+        <View>
+
+        </View>
+    )
+
+}
+
+export default SearchInput;
