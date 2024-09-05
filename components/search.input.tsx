@@ -1,11 +1,13 @@
 import { URL_SERVER } from "@/utils/url";
 import { Nunito_700Bold } from "@expo-google-fonts/nunito";
+import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 import { useFonts } from "expo-font";
 import { router } from "expo-router";
 import { useEffect, useState } from "react"
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { widthPercentageToDP } from "react-native-responsive-screen";
+import CourseCard from "./cards/course.card";
 
 const styles = StyleSheet.create({
     filteringContainer: {
@@ -116,7 +118,43 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
 
     return (
         <View>
-
+            <View style={styles.filteringContainer}>
+                <View style={styles.searchContainer}>
+                    <TextInput
+                        style={[styles.input, { fontFamily: 'Nunito_700Bold' }]}
+                        placeholder="Search"
+                        onChangeText={(v) => setValue(v)}
+                        placeholderTextColor={"#C67CCC"}
+                    />
+                    <TouchableOpacity
+                        style={styles.searchIconContainer}
+                        onPress={() => router.push("/(tabs)/search")}
+                    >
+                        <AntDesign name="search1" size={20} color={"#fff"} />
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <View style={{ paddingHorizontal: 10 }}>
+                <FlatList
+                    data={filterdCourses}
+                    keyExtractor={(item: CoursesType) => item._id}
+                    renderItem={
+                        homeScreen ?
+                            renderCourseItem
+                            :
+                            ({ item }) => <CourseCard item={item} key={item._id} />
+                    }
+                />
+            </View>
+            {!homeScreen && (
+                <>
+                    {filterdCourses.length === 0 && (
+                        <Text>
+                            Không tồn tại dữ liệu để hiển thị!
+                        </Text>
+                    )}
+                </>
+            )}
         </View>
     )
 

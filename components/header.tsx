@@ -70,7 +70,7 @@ const HeaderComponent = () => {
     const { user } = useUser();
 
     useEffect(() => {
-        loadCartItems();
+        // loadCartItems();
     }, []);
 
     let [fontsLoaded, fontsError] = useFonts({
@@ -81,10 +81,10 @@ const HeaderComponent = () => {
         return null;
     }
 
-    const loadCartItems = async () => {
-        const cart: any = await AsyncStorage.getItem("cart");
-        setCartItems(JSON.parse(cart));
-    }
+    // const loadCartItems = async () => {
+    //     // const cart: any = await AsyncStorage.getItem("cart");
+    //     // setCartItems(JSON.parse(cart));
+    // }
 
     return (
         <View style={styles.container}>
