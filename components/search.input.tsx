@@ -104,15 +104,26 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
                 source={{ uri: item.thumbnail.url }}
                 style={{ width: 60, height: 60, borderRadius: 10 }}
             />
-            <Text
-                style={{
-                    fontSize: 14,
-                    paddingLeft: 10,
-                    width: widthPercentageToDP("75%")
-                }}
-            >
-                {item.name}
-            </Text>
+            <View style={{
+                flexDirection: "column",
+                paddingLeft: 10,
+                gap: 10,
+                width: widthPercentageToDP("75%")
+            }}>
+                <Text
+                    style={{
+                        fontSize: 14,
+                        fontFamily: "Nunito_700Bold"
+                    }}
+                >
+                    {item.name}
+                </Text>
+                <Text
+                    style={{ fontSize: 12 }}
+                >
+                    {item.tags}
+                </Text>
+            </View>
         </TouchableOpacity>
     )
 
@@ -134,8 +145,17 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{ paddingHorizontal: 10 }}>
+            <View style={{
+                width: 600,
+                marginLeft: 14,
+                marginTop: 10
+            }}>
                 <FlatList
+                    style={{
+                        borderRadius: 10,
+                        overflow: "hidden",
+                        width: "100%"
+                    }}
                     data={filterdCourses}
                     keyExtractor={(item: CoursesType) => item._id}
                     renderItem={

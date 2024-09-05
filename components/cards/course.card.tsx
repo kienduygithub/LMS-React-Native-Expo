@@ -9,26 +9,26 @@ import {
 export default function CourseCard({ item }: { item: CoursesType }) {
     return (
         <TouchableOpacity
-            style={styles.container}
-        // onPress={() =>
-        //    router.push({
-        //         pathname: "/(routes)/course-details",
-        //         params: { item: JSON.stringify(item) },
-        //     })
-        // } 
+            style={[styles.container, { marginHorizontal: "auto" }]}
+            onPress={() =>
+                router.push({
+                    pathname: "/(routes)/course-details",
+                    params: { item: JSON.stringify(item) },
+                })
+            }
         >
-            <View style={{ paddingHorizontal: 10 }}>
+            <View style={{ paddingHorizontal: 10, marginHorizontal: "auto" }}>
                 <Image
                     style={{
-                        width: wp(86),
-                        height: 220,
+                        width: wp(80),
+                        height: 200,
                         borderRadius: 5,
                         alignSelf: "center",
                         objectFit: "cover",
                     }}
                     source={{ uri: item.thumbnail.url }}
                 />
-                <View style={{ width: wp(85) }}>
+                <View style={{ width: wp(80) }}>
                     <Text
                         style={{
                             fontSize: 14,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         overflow: "hidden",
         margin: "auto",
         marginVertical: 15,
-        padding: 8,
+        padding: 8
     },
     ratingText: {
         color: "white",
