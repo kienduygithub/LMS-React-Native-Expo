@@ -3,7 +3,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
-import { View } from 'react-native';
+import { LogBox, View } from 'react-native';
 import OnBoarding from './(routes)/onboard';
 import { Stack } from 'expo-router';
 import { ToastProvider } from 'react-native-toast-notifications';
@@ -34,10 +34,13 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    LogBox.ignoreAllLogs(true);
+  }, []);
+
   if (!loaded) {
     return null;
   }
-
   return <RootLayoutNav />;
 }
 
@@ -58,6 +61,7 @@ function RootLayoutNav() {
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name="index" />
                 <Stack.Screen name='(routes)/welcome-intro/index' />
+                <Stack.Screen name='(routes)/course-details/index' />
               </Stack>
             </ToastProvider>
           )
