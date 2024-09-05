@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderRadius: 5,
         paddingHorizontal: 10,
-        marginRight: 10,
     },
 
     searchIconContainer: {
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
 const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
     const [value, setValue] = useState("");
     const [courses, setCourses] = useState([]);
-    const [filterdCourses, setFilteredCourses] = useState([]);
+    const [filteredCourses, setFilteredCourses] = useState([]);
 
     useEffect(() => {
         loadAllCourses();
@@ -71,8 +70,8 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
         if (homeScreen && value === "") {
             setFilteredCourses([]);
         } else if (value) {
-            const filterd = courses.filter((course: CoursesType) => course.name.toLowerCase().includes(value.toLowerCase()));
-            setFilteredCourses(filterd);
+            const filtered = courses.filter((course: CoursesType) => course.name.toLowerCase().includes(value.toLowerCase()));
+            setFilteredCourses(filtered);
         } else if (!homeScreen) {
             setFilteredCourses(courses);
         }
@@ -108,7 +107,7 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
                 flexDirection: "column",
                 paddingLeft: 10,
                 gap: 10,
-                width: widthPercentageToDP("75%")
+                width: widthPercentageToDP("80%")
             }}>
                 <Text
                     style={{
@@ -146,17 +145,13 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
                 </View>
             </View>
             <View style={{
-                width: 600,
-                marginLeft: 14,
-                marginTop: 10
+                flex: 1
             }}>
                 <FlatList
                     style={{
-                        borderRadius: 10,
-                        overflow: "hidden",
-                        width: "100%"
+                        flex: 1
                     }}
-                    data={filterdCourses}
+                    data={filteredCourses}
                     keyExtractor={(item: CoursesType) => item._id}
                     renderItem={
                         homeScreen ?
@@ -168,7 +163,7 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
             </View>
             {!homeScreen && (
                 <>
-                    {filterdCourses.length === 0 && (
+                    {filteredCourses.length === 0 && (
                         <Text>
                             Không tồn tại dữ liệu để hiển thị!
                         </Text>
