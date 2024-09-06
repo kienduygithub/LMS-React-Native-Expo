@@ -28,3 +28,5 @@ type BannerDataTypes = {
 }
 
 declare module "*.png";
+
+declare module 'react-native-animated-loader'
