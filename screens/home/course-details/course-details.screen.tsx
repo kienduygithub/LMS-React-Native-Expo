@@ -342,7 +342,10 @@ const CourseDetailsScreen = () => {
                         {checkPurchased === true ? (
                             <TouchableOpacity
                                 style={{ backgroundColor: "#2467EC", paddingVertical: 16, borderRadius: 4 }}
-                                onPress={() => router.push("/(routes)/course-access")}
+                                onPress={() => router.push({
+                                    pathname: "/(routes)/course-access",
+                                    params: { courseData: JSON.stringify(courseData) }
+                                })}
                             >
                                 <Text
                                     style={{ textAlign: "center", color: "#FFFF", fontSize: 16, fontFamily: "Nunito_600SemiBold" }}
