@@ -1,4 +1,5 @@
 import QuestionsCard from "@/components/cards/question.card";
+import ReviewCard from "@/components/cards/review.card";
 import Loader from "@/components/loader";
 import useUser from "@/hooks/useUser";
 import { URL_SERVER } from "@/utils/url";
@@ -75,7 +76,7 @@ const CourseAccessScreen = () => {
         try {
             const accessToken = await AsyncStorage.getItem("access_token");
             const refreshToken = await AsyncStorage.getItem("refresh_token");
-            const response = await axios.put(`${URL_SERVER}/add-question`, {
+            await axios.put(`${URL_SERVER}/add-question`, {
                 question: question,
                 courseId: data._id,
                 contentId: courseContentData[activeVideo]._id
@@ -144,7 +145,7 @@ const CourseAccessScreen = () => {
                 <ScrollView style={{ flex: 1, padding: 10 }}>
                     <View style={{ width: "100%", aspectRatio: 16 / 9, borderRadius: 10 }}>
                         <WebView
-                            source={{ uri: courseContentData[activeVideo].videoUrl! }}
+                            source={{ uri: courseContentData[activeVideo]?.videoUrl! }}
                             allowsFullscreenVideo={true}
                         />
                     </View>
@@ -169,7 +170,7 @@ const CourseAccessScreen = () => {
                     </View>
                     <View style={{ paddingVertical: 10 }}>
                         <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                            {activeVideo + 1}. {courseContentData[activeVideo].title}
+                            {activeVideo + 1}. {courseContentData[activeVideo]?.title}
                         </Text>
                     </View>
                     <View
@@ -258,12 +259,12 @@ const CourseAccessScreen = () => {
                                 }}
                             >
                                 {isExpanded ?
-                                    data.description
+                                    data?.description
                                     :
-                                    data.description.slice(0, 302)
+                                    data?.description.slice(0, 302)
                                 }
                             </Text>
-                            {data.description.length > 302 && (
+                            {data?.description.length > 302 && (
                                 <TouchableOpacity
                                     style={{ marginTop: 3 }}
                                     onPress={() => setIsExpanded(!isExpanded)}
@@ -326,9 +327,67 @@ const CourseAccessScreen = () => {
                                             key={index}
                                             fetchCourseContent={FetchCourseContent}
                                             courseData={data}
-                                            contentId={courseContentData[activeVideo]._id}
+                                            contentId={courseContentData[activeVideo]?._id}
                                         />
                                     ))}
+                            </View>
+                        </View>
+                    )}
+                    {activeButton === "Reviews" && (
+                        <View style={{ marginHorizontal: 16, marginVertical: 25 }}>
+                            {!reviewAvailable && (
+                                <View>
+                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                        <Text
+                                            style={{
+                                                fontSize: 18,
+                                                paddingBottom: 10,
+                                                paddingLeft: 2,
+                                                paddingRight: 5
+                                            }}
+                                        >
+                                            Đưa ra đánh giá:
+                                        </Text>
+                                        {RenderStars()}
+                                    </View>
+                                    <TextInput
+                                        value={review}
+                                        onChangeText={(v) => setReview(v)}
+                                        placeholder="Đưa ra đánh giá..."
+                                        style={{
+                                            flex: 1,
+                                            textAlignVertical: "top",
+                                            justifyContent: "flex-start",
+                                            backgroundColor: "white",
+                                            borderRadius: 10,
+                                            height: 100,
+                                            padding: 10
+                                        }}
+                                        multiline
+                                    />
+                                    <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                                        <TouchableOpacity
+                                            style={styles.button}
+                                            disabled={review === ""}
+                                            onPress={() => OnHandleReviewSubmit()}
+                                        >
+                                            <Text
+                                                style={{
+                                                    color: "#FFF",
+                                                    fontSize: 18,
+                                                    fontWeight: "600"
+                                                }}
+                                            >
+                                                Gửi đánh giá
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            )}
+                            <View style={{ rowGap: 25 }}>
+                                {data?.reviews?.map((item: ReviewType, index: number) => (
+                                    <ReviewCard item={item} key={index} />
+                                ))}
                             </View>
                         </View>
                     )}
