@@ -48,24 +48,28 @@ function RootLayoutNav() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <>
-      {
-        isLoggedIn ?
-          (
-            <View>
-
-            </View>
-          )
-          :
-          (
-            <ToastProvider>
-              <Stack screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="index" />
-                <Stack.Screen name='(routes)/welcome-intro/index' />
-                <Stack.Screen name='(routes)/course-details/index' />
-              </Stack>
-            </ToastProvider>
-          )
-      }
+      (
+      <ToastProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name='(routes)/welcome-intro/index' />
+          <Stack.Screen name='(routes)/course-details/index'
+            options={{
+              headerShown: true,
+              title: "Chi tiết khóa học",
+              headerBackTitle: "Trở về"
+            }}
+          />
+          <Stack.Screen name='(routes)/course-access'
+            options={{
+              headerShown: true,
+              title: "Bài giảng khóa học",
+              headerBackTitle: "Trở về"
+            }}
+          />
+        </Stack>
+      </ToastProvider>
+      )
     </>
   );
 }
