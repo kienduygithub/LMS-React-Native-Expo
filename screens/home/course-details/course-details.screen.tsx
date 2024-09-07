@@ -1,3 +1,4 @@
+import ReviewCard from "@/components/cards/review.card";
 import Loader from "@/components/loader";
 import useUser from "@/hooks/useUser";
 import { Nunito_400Regular, Nunito_500Medium, Nunito_600SemiBold, Nunito_700Bold } from "@expo-google-fonts/nunito";
@@ -315,7 +316,7 @@ const CourseDetailsScreen = () => {
                                 <CourseLesson courseDetails={courseData} />
                             </View>
                         )} */}
-                        {/* {activeButton === "Reviews" && (
+                        {activeButton === "Reviews" && (
                             <View style={{ marginHorizontal: 16, marginVertical: 25 }}>
                                 <View style={{ rowGap: 25 }}>
                                     {courseData?.reviews?.map(
@@ -325,7 +326,7 @@ const CourseDetailsScreen = () => {
                                     )}
                                 </View>
                             </View>
-                        )} */}
+                        )}
                     </View>
                 </ScrollView>
             )}
