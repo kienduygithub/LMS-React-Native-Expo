@@ -93,30 +93,23 @@ const CartScreen = () => {
     }
 
     const CreateOrder = async (paymentResponse: any) => {
-        const accessToken = await AsyncStorage.getItem("access_token");
-        const refreshToken = await AsyncStorage.getItem("refresh_token");
-
-        await axios
-            .post(
-                `${URL_SERVER}/create-mobile-order`,
-                {
-                    courseId: cartItems[0]._id,
-                    payment_info: paymentResponse,
-                },
-                {
-                    headers: {
-                        "access-token": accessToken,
-                        "refresh-token": refreshToken,
-                    },
+        try {
+            const accessToken = await AsyncStorage.getItem("access_token");
+            const refreshToken = await AsyncStorage.getItem("refresh_token");
+            await axios.post(`${URL_SERVER}/create-mobile-order`, {
+                courseId: cartItems[0]._id,
+                payment_info: paymentResponse
+            }, {
+                headers: {
+                    "access-token": accessToken,
+                    "refresh-token": refreshToken
                 }
-            )
-            .then((res) => {
-                setOrderSuccess(true);
-                AsyncStorage.removeItem("cart");
-            })
-            .catch((error) => {
-                console.log(error);
             });
+            setOrderSuccess(true);
+            AsyncStorage.removeItem("cart");
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
