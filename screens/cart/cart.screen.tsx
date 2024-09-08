@@ -4,8 +4,11 @@ import { useStripe } from "@stripe/stripe-react-native";
 import axios from "axios";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native"
-
+import { Image, RefreshControl, Text, TouchableOpacity, View } from "react-native"
+import AccountConfirmation from "@/assets/images/account_confirmation.png";
+import EmptyCart from "@/assets/images/empty_cart.png";
+import { FlatList } from "react-native-reanimated/lib/typescript/Animated";
+import { Entypo, FontAwesome } from "@expo/vector-icons";
 const CartScreen = () => {
     const [cartItems, setCartItems] = useState<CoursesType[]>([]);
     const [refreshing, setRefreshing] = useState(false);
@@ -113,8 +116,177 @@ const CartScreen = () => {
     };
 
     return (
-        <View>
-            <Text>Cart Screen</Text>
+        <View style={{ flex: 1, backgroundColor: "#FFF" }}>
+            {orderSuccess ? (
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                    <Image
+                        source={AccountConfirmation}
+                        style={{
+                            width: 200,
+                            height: 200,
+                            resizeMode: "contain",
+                            marginBottom: 20
+                        }}
+                    />
+                    <View style={{ alignItems: "center", marginBottom: 20 }}>
+                        <Text style={{ fontSize: 22, fontFamily: "Raleway_700Bold" }}>
+                            Thanh toán thành công
+                        </Text>
+                        <Text>
+                            Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của chúng tôi!
+                        </Text>
+                    </View>
+                    <View style={{ alignItems: "center", marginBottom: 20 }}>
+                        <Text>
+                            Bạn sẽ sớm nhận được một email của chúng tôi!
+                        </Text>
+                    </View>
+                </View>
+            ) : (
+                <>
+                    <FlatList
+                        data={cartItems}
+                        keyExtractor={(item) => item._id + ""}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                style={{
+                                    flexDirection: "row",
+                                    marginVertical: 8,
+                                    borderRadius: 8,
+                                    padding: 10,
+                                    backgroundColor: "#FFF"
+                                }}
+                            >
+                                <TouchableOpacity onPress={() => OnHandleCourseDetails(item)}>
+                                    <Image
+                                        source={{ uri: item.thumbnail.url! }}
+                                        style={{
+                                            width: 100,
+                                            height: 100,
+                                            marginRight: 16,
+                                            borderRadius: 8
+                                        }}
+                                    />
+                                </TouchableOpacity>
+                                <View style={{ flex: 1, justifyContent: "space-between" }}>
+                                    <TouchableOpacity onPress={() => OnHandleCourseDetails(item)}>
+                                        <Text
+                                            style={{
+                                                fontSize: 16,
+                                                fontWeight: "600",
+                                                fontFamily: "Nunito_700Bold"
+                                            }}
+                                        >
+                                            {item?.name}
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                            <View style={{ flexDirection: "row", alignItems: "center", marginRight: 16 }}>
+                                                <Entypo name="dot-single" size={24} color={"gray"} />
+                                                <Text style={{ fontSize: 16, color: "#808080", fontFamily: "Nunito_400Regular" }}>
+                                                    {item.level}
+                                                </Text>
+                                            </View>
+                                            <View style={{ flexDirection: "row", alignItems: "center", marginRight: 16 }}>
+                                                <FontAwesome name="dollar" size={14} color={"#808080"} />
+                                                <Text style={{ marginLeft: 3, fontSize: 16, color: "#808080" }}>
+                                                    {item.price}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </View>
+                                    <TouchableOpacity
+                                        style={{
+                                            backgroundColor: "#FF6347",
+                                            borderRadius: 5,
+                                            padding: 5,
+                                            marginTop: 10,
+                                            width: 100,
+                                            alignSelf: "flex-start"
+                                        }}
+                                        onPress={() => OnHandleRemoveItem(item)}
+                                    >
+                                        <Text
+                                            style={{
+                                                color: "#FFF",
+                                                fontSize: 16,
+                                                textAlign: "center",
+                                                fontFamily: "Nunito_600SemiBold"
+                                            }}
+                                        >
+                                            Xóa
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </TouchableOpacity>
+                        )}
+                        ListEmptyComponent={() => (
+                            <View
+                                style={{ flex: 1, alignItems: "center", justifyContent: "center", padding: 20 }}
+                            >
+                                <Image
+                                    source={EmptyCart}
+                                    style={{ width: 200, height: 200, resizeMode: "contain" }}
+                                />
+                                <Text
+                                    style={{
+                                        fontSize: 24,
+                                        marginTop: 20,
+                                        color: "#333",
+                                        fontFamily: "Raleway_600SemiBold"
+                                    }}
+                                >
+                                    Giỏ hàng của bạn đang trống!
+                                </Text>
+                            </View>
+                        )}
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={() => OnRefresh()} />
+                        }
+                    />
+                    <View style={{ marginBottom: 25 }}>
+                        {cartItems?.length === 0 ||
+                            (cartItems?.length > 0 && (
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        textAlign: "center",
+                                        marginTop: 20,
+                                        fontFamily: "Nunito_700Bold"
+                                    }}
+                                >
+                                    Thành tiền: {CalculateTotalPrice()}đ
+                                </Text>
+                            ))}
+                        {cartItems?.length === 0 ||
+                            (cartItems?.length > 0 && (
+                                <TouchableOpacity
+                                    style={{
+                                        backgroundColor: "#007BFF",
+                                        borderRadius: 5,
+                                        padding: 10,
+                                        marginTop: 20,
+                                        width: "80%",
+                                        alignSelf: "center"
+                                    }}
+                                    onPress={() => OnHandlePayment()}
+                                >
+                                    <Text
+                                        style={{
+                                            color: "#FFF",
+                                            fontSize: 18,
+                                            textAlign: "center",
+                                            fontFamily: "Nunito_600SemiBold"
+                                        }}
+                                    >
+                                        Tiến hành thanh toán
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                    </View>
+                </>
+            )}
         </View>
     )
 }
