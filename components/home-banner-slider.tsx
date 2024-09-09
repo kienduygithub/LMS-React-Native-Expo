@@ -28,7 +28,7 @@ const HomeBannerSlider = () => {
                     <View key={index} style={styles.slide}>
                         <Image
                             source={item.bannerImageUrl!}
-                            style={{ width: 500, height: 250, marginHorizontal: "auto" }}
+                            style={{ width: 400, height: 250, marginHorizontal: "auto" }}
                         />
                     </View>
                 ))}

@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFF",
         marginHorizontal: 6,
         borderRadius: 12,
-        width: "95%",
+        width: "100%",
         height: "auto",
         overflow: "hidden",
         margin: "auto",

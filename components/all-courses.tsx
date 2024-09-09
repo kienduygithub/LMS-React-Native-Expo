@@ -74,7 +74,7 @@ const AllCourses = () => {
                 data={courses}
                 showsHorizontalScrollIndicator={false}
                 keyExtractor={(item) => item._id + ""}
-                renderItem={({ item }) => <CourseCard item={item} />}
+                renderItem={({ item }) => <CourseCard item={item} key={item._id} />}
             />
         </View>
     )

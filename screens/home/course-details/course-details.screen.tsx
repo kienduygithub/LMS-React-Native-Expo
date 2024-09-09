@@ -52,12 +52,12 @@ const CourseDetailsScreen = () => {
     }
 
     return (
-        <SafeAreaView>
+        <>
             {loading ? (
                 <Loader />
             ) : (
-                <View style={{ flex: 1 }}>
-                    <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{ flex: 1, marginTop: 16 }}>
+                    <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
                         <View style={{ marginHorizontal: 16 }}>
                             <View
                                 style={{
@@ -144,7 +144,7 @@ const CourseDetailsScreen = () => {
                                                 paddingVertical: 10,
                                             }}
                                         >
-                                            ${courseData?.price}
+                                            {courseData?.price}đ
                                         </Text>
                                         <Text
                                             style={{
@@ -154,7 +154,7 @@ const CourseDetailsScreen = () => {
                                                 textDecorationLine: "line-through",
                                             }}
                                         >
-                                            ${courseData?.estimatedPrice}
+                                            {courseData?.estimatedPrice}đ
                                         </Text>
                                     </View>
                                 </View>
@@ -208,16 +208,17 @@ const CourseDetailsScreen = () => {
                                 style={{
                                     flexDirection: "row",
                                     justifyContent: "center",
+                                    alignItems: "center",
                                     marginTop: 25,
-                                    marginHorizontal: 16,
-                                    backgroundColor: "#E1E9F8",
+                                    paddingHorizontal: 16,
+                                    backgroundColor: "#E1E9F0",
                                     borderRadius: 50
                                 }}
                             >
                                 <TouchableOpacity
                                     style={{
                                         paddingVertical: 10,
-                                        paddingHorizontal: 42,
+                                        paddingHorizontal: 36,
                                         backgroundColor: activeButton === "About" ? "#2467EC" : "transparent",
                                         borderRadius: activeButton === "About" ? 50 : 0
                                     }}
@@ -235,7 +236,7 @@ const CourseDetailsScreen = () => {
                                 <TouchableOpacity
                                     style={{
                                         paddingVertical: 10,
-                                        paddingHorizontal: 42,
+                                        paddingHorizontal: 36,
                                         backgroundColor:
                                             activeButton === "Lessons" ? "#2467EC" : "transparent",
                                         borderRadius: activeButton === "Lessons" ? 50 : 0,
@@ -254,7 +255,7 @@ const CourseDetailsScreen = () => {
                                 <TouchableOpacity
                                     style={{
                                         paddingVertical: 10,
-                                        paddingHorizontal: 42,
+                                        paddingHorizontal: 36,
                                         backgroundColor:
                                             activeButton === "Reviews" ? "#2467EC" : "transparent",
                                         borderRadius: activeButton === "Reviews" ? 50 : 0,
@@ -377,7 +378,7 @@ const CourseDetailsScreen = () => {
                     </View>
                 </View>
             )}
-        </SafeAreaView>
+        </>
     )
 }
 

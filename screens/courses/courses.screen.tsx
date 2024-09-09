@@ -23,7 +23,7 @@ const CoursesScreen = () => {
     const FetchCategories = async () => {
         try {
             const response = await axios.get(`${URL_SERVER}/get-layout/Categories`);
-            setCategories(response.data.layout.categories);
+            // setCategories(response.data.layout.categories);
             FetchCourses();
         } catch (error) {
             console.log(error);
@@ -72,7 +72,7 @@ const CoursesScreen = () => {
             {loading ? (
                 <Loader />
             ) : (
-                <SafeAreaView style={{ flex: 1 }}>
+                <View style={{ flex: 1 }}>
                     <View style={{ padding: 10 }}>
                         <ScrollView style={{ flex: 1 }} horizontal showsHorizontalScrollIndicator={false}>
                             <TouchableOpacity
@@ -107,19 +107,17 @@ const CoursesScreen = () => {
                             ))}
                         </ScrollView>
                     </View>
-                    <View>
-                        <ScrollView style={{ marginHorizontal: 15, gap: 12 }}>
-                            {courses?.map((item: CoursesType, index: number) => (
-                                <CourseCard item={item} key={index} />
-                            ))}
-                        </ScrollView>
-                        {courses?.length === 0 && (
-                            <Text style={{ textAlign: "center", paddingTop: 50, fontSize: 18 }}>
-                                Không có dữ liệu
-                            </Text>
-                        )}
-                    </View>
-                </SafeAreaView>
+                    <ScrollView style={{ marginHorizontal: 15, gap: 12 }}>
+                        {courses?.map((item: CoursesType, index: number) => (
+                            <CourseCard item={item} key={index} />
+                        ))}
+                    </ScrollView>
+                    {courses?.length === 0 && (
+                        <Text style={{ textAlign: "center", paddingTop: 50, fontSize: 18 }}>
+                            Không có dữ liệu
+                        </Text>
+                    )}
+                </View>
             )}
         </>
     )

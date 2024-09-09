@@ -90,9 +90,9 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
             style={{
                 backgroundColor: "#fff",
                 padding: 10,
-                width: widthPercentageToDP("90%"),
-                marginLeft: "1.5%",
-                flexDirection: "row"
+                width: widthPercentageToDP("100%"),
+                flexDirection: "row",
+                flex: 1
             }}
             onPress={() => router.push({
                 pathname: "/(routes)/course-details",
@@ -105,7 +105,7 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
             />
             <View style={{
                 flexDirection: "column",
-                paddingLeft: 10,
+                paddingLeft: 15,
                 gap: 10,
                 width: widthPercentageToDP("80%")
             }}>
@@ -144,11 +144,14 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{
-                flex: 1
-            }}>
+            <View>
                 <FlatList
                     style={{
+                        width: 38,
+                        marginLeft: 16,
+                        position: "absolute",
+                        top: 10,
+                        zIndex: 999,
                         flex: 1
                     }}
                     data={filteredCourses}

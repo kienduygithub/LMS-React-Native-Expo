@@ -127,6 +127,7 @@ const ProfileScreen = () => {
                                     justifyContent: "space-between",
                                     marginBottom: 20
                                 }}
+
                             >
                                 <View style={{ flexDirection: "row", alignItems: "center", columnGap: 30 }}>
                                     <View

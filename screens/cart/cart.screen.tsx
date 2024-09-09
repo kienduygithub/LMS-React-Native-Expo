@@ -4,10 +4,9 @@ import { useStripe } from "@stripe/stripe-react-native";
 import axios from "axios";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
-import { Image, RefreshControl, Text, TouchableOpacity, View } from "react-native"
+import { FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from "react-native"
 import AccountConfirmation from "@/assets/images/account_confirmation.png";
 import EmptyCart from "@/assets/images/empty_cart.png";
-import { FlatList } from "react-native-reanimated/lib/typescript/Animated";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
 const CartScreen = () => {
     const [cartItems, setCartItems] = useState<CoursesType[]>([]);

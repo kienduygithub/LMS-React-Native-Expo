@@ -101,9 +101,9 @@ const SearchScreen = () => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={{ flex: 1 }}>
+            <View>
                 <FlatList
-                    style={{ flex: 1 }}
+                    style={{ flex: 1, paddingHorizontal: 16 }}
                     data={filteredCourses}
                     keyExtractor={(item: CoursesType) => item._id}
                     renderItem={
