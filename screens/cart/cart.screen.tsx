@@ -61,7 +61,7 @@ const CartScreen = () => {
             const accessToken = await AsyncStorage.getItem("access_token");
             const refreshToken = await AsyncStorage.getItem("refresh_token");
             const amount = Math.round(
-                cartItems.reduce((total, item) => total + item.price, 0) * 100
+                cartItems.reduce((total, item) => total + item.price, 0) / 1000
             );
             const paymentIntentResponse = await axios.post(
                 `${URL_SERVER}/payment`,
@@ -74,11 +74,11 @@ const CartScreen = () => {
                 }
             );
             const { client_secret: clientSecret } = paymentIntentResponse.data;
+            console.log(clientSecret);
             const initSheetResponse = await initPaymentSheet({
                 merchantDisplayName: "Becodemy Private Ltd.",
                 paymentIntentClientSecret: clientSecret
             });
-
             if (initSheetResponse.error) {
                 console.error(initSheetResponse.error);
                 return;
@@ -180,17 +180,16 @@ const CartScreen = () => {
                                         </Text>
                                     </TouchableOpacity>
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                        <View style={{ flexDirection: "column", justifyContent: "space-between" }}>
                                             <View style={{ flexDirection: "row", alignItems: "center", marginRight: 16 }}>
-                                                <Entypo name="dot-single" size={24} color={"gray"} />
+                                                {/* <Entypo name="dot-single" size={24} color={"gray"} /> */}
                                                 <Text style={{ fontSize: 16, color: "#808080", fontFamily: "Nunito_400Regular" }}>
                                                     {item.level}
                                                 </Text>
                                             </View>
                                             <View style={{ flexDirection: "row", alignItems: "center", marginRight: 16 }}>
-                                                <FontAwesome name="dollar" size={14} color={"#808080"} />
-                                                <Text style={{ marginLeft: 3, fontSize: 16, color: "#808080" }}>
-                                                    {item.price}
+                                                <Text style={{ marginLeft: 0, fontSize: 16, color: "#808080" }}>
+                                                    {item.price}đ
                                                 </Text>
                                             </View>
                                         </View>
