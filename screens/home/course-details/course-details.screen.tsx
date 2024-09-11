@@ -30,6 +30,7 @@ const CourseDetailsScreen = () => {
         const existingCartData = await AsyncStorage.getItem("cart");
         const cartData = existingCartData ? JSON.parse(existingCartData) : [];
         const itemExists = cartData.some((item: any) => item._id === courseData._id)
+        console.log(cartData);
         if (!itemExists) {
             cartData.push(courseData);
             await AsyncStorage.setItem("cart", JSON.stringify(cartData));

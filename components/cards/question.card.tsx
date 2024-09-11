@@ -52,7 +52,6 @@ const QuestionsCard = (
             setOpen(!open);
             fetchCourseContent();
         } catch (error) {
-            console.log(error);
             Toast.show("Có lỗi xảy ra. Vui lòng thử lại", {
                 type: "danger"
             })

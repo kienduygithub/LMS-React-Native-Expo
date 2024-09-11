@@ -52,6 +52,7 @@ const CartScreen = () => {
         const existingCartData = await AsyncStorage.getItem("cart");
         const cartData = existingCartData ? JSON.parse(existingCartData) : [];
         const updatedCartData = cartData.filter((i: any) => i._id !== item._id);
+        console.log(cartData);
         await AsyncStorage.setItem("cart", JSON.stringify(updatedCartData));
         setCartItems(updatedCartData);
     }
@@ -74,7 +75,6 @@ const CartScreen = () => {
                 }
             );
             const { client_secret: clientSecret } = paymentIntentResponse.data;
-            console.log(clientSecret);
             const initSheetResponse = await initPaymentSheet({
                 merchantDisplayName: "Becodemy Private Ltd.",
                 paymentIntentClientSecret: clientSecret

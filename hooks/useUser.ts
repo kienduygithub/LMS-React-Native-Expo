@@ -23,7 +23,6 @@ const useUser = () => {
                     "refresh-token": refreshToken
                 }
             })
-            console.log(response.data);
             setUser(response.data.user);
             setLoading(false);
         } catch (error: any) {

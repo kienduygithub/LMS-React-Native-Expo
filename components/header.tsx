@@ -80,14 +80,6 @@ const HeaderComponent = () => {
         }, [])
     );
 
-    let [fontsLoaded, fontsError] = useFonts({
-        Raleway_700Bold
-    })
-
-    if (!fontsLoaded && !fontsError) {
-        return null;
-    }
-
     const LoadCartItems = async () => {
         try {
             const cart: any = await AsyncStorage.getItem("cart");
@@ -97,6 +89,14 @@ const HeaderComponent = () => {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    let [fontsLoaded, fontsError] = useFonts({
+        Raleway_700Bold
+    })
+
+    if (!fontsLoaded && !fontsError) {
+        return null;
     }
 
     return (

@@ -20,7 +20,6 @@ const AllCourses = () => {
     const loadAllCourses = async () => {
         try {
             const response = await axios.get(`${URL_SERVER}/get-courses`);
-            console.log(response.data);
             setCourses([...response.data.courses]);
         } catch (error) {
             console.log(error);

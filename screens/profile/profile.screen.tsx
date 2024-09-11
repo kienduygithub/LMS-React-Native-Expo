@@ -33,6 +33,7 @@ const ProfileScreen = () => {
     const OnLogoutHandler = async () => {
         await AsyncStorage.removeItem("access_token");
         await AsyncStorage.removeItem("refresh_token");
+        // await AsyncStorage.removeItem("cart");
         router.push("/(routes)/sign-in");
     }
 
