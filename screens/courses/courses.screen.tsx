@@ -3,6 +3,7 @@ import Loader from "@/components/loader";
 import { URL_SERVER } from "@/utils/url";
 import { Nunito_400Regular, Nunito_700Bold, Nunito_500Medium, Nunito_600SemiBold } from "@expo-google-fonts/nunito";
 import { Raleway_600SemiBold, Raleway_700Bold } from "@expo-google-fonts/raleway";
+import { Zocial } from "@expo/vector-icons";
 import axios from "axios";
 import { useFonts } from "expo-font";
 import { useEffect, useState } from "react";
@@ -120,8 +121,11 @@ const CoursesScreen = () => {
                         </View>
                     )}
                     {courses?.length === 0 && (
-                        <View>
-                            <Text style={{ textAlign: "center", paddingTop: 20, fontSize: 16 }}>
+                        <View style={{ flexDirection: "column", alignItems: "center", width: "100%" }}>
+                            <View style={{ width: "100%" }}>
+                                <Zocial name="cloudapp" size={60} style={{ textAlign: "center" }} color="#ccc" />
+                            </View>
+                            <Text style={{ textAlign: "center", fontSize: 16 }}>
                                 Không có dữ liệu
                             </Text>
                         </View>

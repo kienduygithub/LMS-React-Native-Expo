@@ -2,7 +2,7 @@ import CourseCard from "@/components/cards/course.card";
 import SearchInput from "@/components/search.input";
 import { URL_SERVER } from "@/utils/url";
 import { Nunito_700Bold } from "@expo-google-fonts/nunito";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Zocial } from "@expo/vector-icons";
 import axios from "axios";
 import { useFonts } from "expo-font";
 import { router } from "expo-router";
@@ -113,7 +113,10 @@ const SearchScreen = () => {
             </View>
             {filteredCourses.length === 0 && (
                 <View style={{ flex: 1, marginHorizontal: 18, marginTop: 20 }}>
-                    <Text>Không tồn tại dữ liệu để hiển thị!</Text>
+                    <View style={{ width: "100%" }}>
+                        <Zocial name="cloudapp" size={60} style={{ textAlign: "center" }} color="#ccc" />
+                    </View>
+                    <Text style={{ textAlign: 'center' }}>Không tồn tại dữ liệu</Text>
                 </View>
             )}
         </ScrollView>
