@@ -30,6 +30,7 @@ const CourseAccessScreen = () => {
     const { user } = useUser();
     const { courseData } = useLocalSearchParams();
     const data: CoursesType = JSON.parse(courseData as string);
+    const [courseReviews, setCourseReviews] = useState<ReviewType[]>(data?.reviews ? data.reviews : []);
 
     const [courseContentData, setCourseContentData] = useState<CourseDataType[]>([]);
     const [activeVideo, setActiveVideo] = useState(0);
@@ -43,7 +44,7 @@ const CourseAccessScreen = () => {
     useEffect(() => {
         const subscription = async () => {
             await FetchCourseContent();
-            const isReviewAvailable = data.reviews.find(
+            const isReviewAvailable = courseReviews.find(
                 (i: any) => i.user._id === user?._id
             )
             if (isReviewAvailable) {
@@ -52,6 +53,10 @@ const CourseAccessScreen = () => {
         }
         subscription();
     }, [])
+
+    useEffect(() => {
+        console.log(courseReviews);
+    }, [courseReviews])
 
     const FetchCourseContent = async () => {
         try {
@@ -101,7 +106,7 @@ const CourseAccessScreen = () => {
         try {
             const accessToken = await AsyncStorage.getItem("access_token");
             const refreshToken = await AsyncStorage.getItem("refresh_token");
-            const response = await axios.put(`${URL_SERVER}/add-review/${data._id}`,
+            await axios.put(`${URL_SERVER}/add-review/${data._id}`,
                 { review, rating },
                 {
                     headers: {
@@ -112,10 +117,18 @@ const CourseAccessScreen = () => {
             );
             setRating(1);
             setReview("");
-            router.push({
-                pathname: "/(routes)/course-details",
-                params: { item: JSON.stringify(data) }
-            })
+            let currentCourseReview = courseReviews;
+            let _data: ReviewType = {
+                user: user!,
+                comment: review,
+                rating: rating
+            }
+            currentCourseReview = [_data, ...currentCourseReview];
+            setCourseReviews(currentCourseReview);
+            // router.push({
+            //     pathname: "/(routes)/course-details",
+            //     params: { item: JSON.stringify(data) }
+            // })
         } catch (error) {
             console.log(error);
         }
@@ -386,8 +399,10 @@ const CourseAccessScreen = () => {
                                 </View>
                             )}
                             <View style={{ rowGap: 25 }}>
-                                {data?.reviews?.map((item: ReviewType, index: number) => (
-                                    <ReviewCard item={item} key={index} />
+                                {courseReviews.map((item: ReviewType, index: number) => (
+                                    <View key={index}>
+                                        <ReviewCard item={item} />
+                                    </View>
                                 ))}
                             </View>
                         </View>

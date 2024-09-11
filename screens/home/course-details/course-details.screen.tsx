@@ -2,15 +2,17 @@ import ReviewCard from "@/components/cards/review.card";
 import CourseLesson from "@/components/course-lesson";
 import Loader from "@/components/loader";
 import useUser from "@/hooks/useUser";
+import { URL_SERVER } from "@/utils/url";
 import { Nunito_400Regular, Nunito_500Medium, Nunito_600SemiBold, Nunito_700Bold } from "@expo-google-fonts/nunito";
 import { Raleway_600SemiBold, Raleway_700Bold } from "@expo-google-fonts/raleway";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useFocusEffect } from "@react-navigation/native";
+import axios from "axios";
 import { useFonts } from "expo-font";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context";
 
 const CourseDetailsScreen = () => {
     const [activeButton, setActiveButton] = useState("About");
@@ -18,6 +20,7 @@ const CourseDetailsScreen = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const { item } = useLocalSearchParams();
     const courseData: CoursesType = JSON.parse(item as string);
+    const [courseInfo, setCourseInfo] = useState<CoursesType>(courseData);
     const [checkPurchased, setCheckPurchased] = useState(false);
 
     useEffect(() => {
@@ -25,6 +28,30 @@ const CourseDetailsScreen = () => {
             setCheckPurchased(true);
         }
     }, [user])
+
+    const LoadCourse = async () => {
+        try {
+            const response = await axios.get(`${URL_SERVER}/get-courses`);
+            const _data = response.data?.courses?.filter((item: CoursesType) => item._id === courseData._id);
+            setCourseInfo(_data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        LoadCourse();
+    }, [])
+
+    useFocusEffect(
+        useCallback(() => {
+            LoadCourse();
+        }, [])
+    )
+
+    useEffect(() => {
+        console.log(courseInfo?.reviews);
+    }, [courseInfo])
 
     const OnHandleAddToCart = async () => {
         const existingCartData = await AsyncStorage.getItem("cart");
