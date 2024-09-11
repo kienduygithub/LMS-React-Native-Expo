@@ -125,10 +125,6 @@ const CourseAccessScreen = () => {
             }
             currentCourseReview = [_data, ...currentCourseReview];
             setCourseReviews(currentCourseReview);
-            // router.push({
-            //     pathname: "/(routes)/course-details",
-            //     params: { item: JSON.stringify(data) }
-            // })
         } catch (error) {
             console.log(error);
         }
@@ -173,7 +169,8 @@ const CourseAccessScreen = () => {
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={styles.button}
+                            style={[styles.button, { backgroundColor: `${(activeVideo === courseContentData.length - 1) ? '#ccc' : '#2467EC'}` }]}
+                            disabled={activeVideo === courseContentData.length - 1}
                             onPress={() => setActiveVideo(activeVideo + 1)}
                         >
                             <Text style={{ color: "#FFF", fontSize: 16, fontWeight: "600" }}>
