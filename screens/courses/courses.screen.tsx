@@ -18,13 +18,15 @@ const CoursesScreen = () => {
 
     useEffect(() => {
         FetchCategories();
+        FetchCourses();
     }, []);
 
     const FetchCategories = async () => {
         try {
             const response = await axios.get(`${URL_SERVER}/get-layout/Categories`);
-            // setCategories(response.data.layout.categories);
-            FetchCourses();
+            console.log(response.data);
+            setCategories(response.data.layout.categories);
+            // FetchCourses();
         } catch (error) {
             console.log(error);
         }
@@ -74,48 +76,55 @@ const CoursesScreen = () => {
             ) : (
                 <View style={{ flex: 1 }}>
                     <View style={{ padding: 10 }}>
-                        <ScrollView style={{ flex: 1 }} horizontal showsHorizontalScrollIndicator={false}>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                             <TouchableOpacity
                                 style={{
                                     padding: 10,
-                                    backgroundColor: activeCategory === "All" ? "#2467EC" : "#000",
+                                    backgroundColor: activeCategory === "All" ? "#2467EC" : "#ccc",
                                     borderRadius: 20,
                                     paddingHorizontal: 20,
                                     marginRight: 5
                                 }}
                                 onPress={() => OnHandleCategories("All")}
                             >
-                                <Text style={{ color: "#FFF", fontSize: 18, fontWeight: "600" }}>
+                                <Text style={{ color: "#FFF", fontSize: 14, fontWeight: "600" }}>
                                     Tất cả
                                 </Text>
                             </TouchableOpacity>
                             {categories?.map((item: any, index: number) => (
                                 <TouchableOpacity
+                                    key={index}
                                     style={{
                                         padding: 10,
-                                        backgroundColor: activeCategory === item?.title ? "#2467EC" : "#000",
+                                        backgroundColor: activeCategory === item?.title ? "#2467EC" : "#ccc",
                                         borderRadius: 50,
                                         paddingHorizontal: 20,
-                                        marginHorizontal: 15,
+                                        marginRight: 5
                                     }}
                                     onPress={() => OnHandleCategories(item?.title)}
                                 >
-                                    <Text style={{ color: "#FFF", fontSize: 18, fontWeight: "600" }}>
+                                    <Text style={{ color: "#FFF", fontSize: 14, fontWeight: "600" }}>
                                         {item?.title}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
                         </ScrollView>
                     </View>
-                    <ScrollView style={{ marginHorizontal: 15, gap: 12 }}>
-                        {courses?.map((item: CoursesType, index: number) => (
-                            <CourseCard item={item} key={index} />
-                        ))}
-                    </ScrollView>
+                    {courses.length > 0 && (
+                        <View style={{ flex: 1 }}>
+                            <ScrollView style={{ marginHorizontal: 15, gap: 12, flex: 1 }}>
+                                {courses?.map((item: CoursesType, index: number) => (
+                                    <CourseCard item={item} key={index} />
+                                ))}
+                            </ScrollView>
+                        </View>
+                    )}
                     {courses?.length === 0 && (
-                        <Text style={{ textAlign: "center", paddingTop: 50, fontSize: 18 }}>
-                            Không có dữ liệu
-                        </Text>
+                        <View>
+                            <Text style={{ textAlign: "center", paddingTop: 20, fontSize: 16 }}>
+                                Không có dữ liệu
+                            </Text>
+                        </View>
                     )}
                 </View>
             )}

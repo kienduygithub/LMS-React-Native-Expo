@@ -4,7 +4,7 @@ import useUser from "@/hooks/useUser";
 import { URL_SERVER } from "@/utils/url";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const index = () => {
@@ -34,14 +34,15 @@ const index = () => {
             {loader || loading ? (
                 <Loader />
             ) : (
-                <SafeAreaView style={{ flex: 1 }}>
+                <View style={{ flex: 1 }}>
                     <FlatList
+                        style={{ paddingHorizontal: 15 }}
                         data={courses}
                         showsHorizontalScrollIndicator={false}
                         keyExtractor={(item) => item._id + ""}
                         renderItem={({ item }) => <CourseCard item={item} />}
                     />
-                </SafeAreaView>
+                </View>
             )}
         </>
     )

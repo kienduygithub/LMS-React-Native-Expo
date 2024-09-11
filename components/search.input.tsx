@@ -92,7 +92,6 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
                 padding: 10,
                 width: widthPercentageToDP("100%"),
                 flexDirection: "row",
-                flex: 1
             }}
             onPress={() => router.push({
                 pathname: "/(routes)/course-details",
@@ -144,15 +143,14 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View>
+            <View style={{ flex: 1 }}>
                 <FlatList
                     style={{
-                        width: 38,
+                        width: 380,
                         marginLeft: 16,
                         position: "absolute",
                         top: 10,
                         zIndex: 999,
-                        flex: 1
                     }}
                     data={filteredCourses}
                     keyExtractor={(item: CoursesType) => item._id}

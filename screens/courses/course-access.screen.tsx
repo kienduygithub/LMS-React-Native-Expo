@@ -15,7 +15,7 @@ import WebView from "react-native-webview";
 
 const styles = StyleSheet.create({
     button: {
-        width: widthPercentageToDP("35%"),
+        width: widthPercentageToDP("40%"),
         height: 40,
         backgroundColor: "#2467EC",
         marginVertical: 10,
@@ -128,9 +128,9 @@ const CourseAccessScreen = () => {
                 <TouchableOpacity key={i} onPress={() => setRating(i)}>
                     <FontAwesome
                         name={i <= rating ? "star" : "star-o"}
-                        size={25}
+                        size={20}
                         color={"#FF8D07"}
-                        style={{ marginHorizontal: 4, marginTop: 5 }}
+                        style={{ marginHorizontal: 2, marginBottom: 10 }}
                     />
                 </TouchableOpacity>
             )
@@ -143,7 +143,7 @@ const CourseAccessScreen = () => {
                 <Loader />
             ) : (
                 <ScrollView style={{ flex: 1, padding: 10 }}>
-                    <View style={{ width: "100%", aspectRatio: 16 / 9, borderRadius: 10 }}>
+                    <View style={{ width: "100%", aspectRatio: 18 / 9, borderRadius: 10 }}>
                         <WebView
                             source={{ uri: courseContentData[activeVideo]?.videoUrl! }}
                             allowsFullscreenVideo={true}
@@ -151,20 +151,20 @@ const CourseAccessScreen = () => {
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                         <TouchableOpacity
-                            style={styles.button}
+                            style={[styles.button, { backgroundColor: `${activeVideo === 0 && '#ccc'}` }]}
                             disabled={activeVideo === 0}
                             onPress={() => setActiveVideo(activeVideo - 1)}
                         >
-                            <Text style={{ color: "#FFF", fontSize: 18, fontWeight: "600" }}>
-                                {"<"}
+                            <Text style={{ color: "#FFF", fontSize: 16, fontWeight: "600" }}>
+                                {"Quay lại"}
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.button}
                             onPress={() => setActiveVideo(activeVideo + 1)}
                         >
-                            <Text style={{ color: "#FFF", fontSize: 18, fontWeight: "600" }}>
-                                {">"}
+                            <Text style={{ color: "#FFF", fontSize: 16, fontWeight: "600" }}>
+                                {"Tiếp theo"}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -176,17 +176,18 @@ const CourseAccessScreen = () => {
                     <View
                         style={{
                             flexDirection: "row",
-                            marginTop: 25,
-                            marginHorizontal: 10,
+                            marginTop: 10,
+                            marginHorizontal: 0,
                             backgroundColor: "#E1E9F8",
                             borderRadius: 50,
-                            gap: 10
+                            gap: 10,
+                            justifyContent: "space-between"
                         }}
                     >
                         <TouchableOpacity
                             style={{
                                 paddingVertical: 10,
-                                paddingHorizontal: 42,
+                                paddingHorizontal: 36,
                                 backgroundColor: activeButton === "About" ? "#2467EC" : "transparent",
                                 borderRadius: activeButton === "About" ? 50 : 0
                             }}
@@ -204,7 +205,7 @@ const CourseAccessScreen = () => {
                         <TouchableOpacity
                             style={{
                                 paddingVertical: 10,
-                                paddingHorizontal: 42,
+                                paddingHorizontal: 36,
                                 borderRadius: activeButton === "Q&A" ? 50 : 0,
                                 backgroundColor: activeButton === "Q&A" ? "#2467EC" : "transparent"
                             }}
@@ -222,7 +223,7 @@ const CourseAccessScreen = () => {
                         <TouchableOpacity
                             style={{
                                 paddingVertical: 10,
-                                paddingHorizontal: 42,
+                                paddingHorizontal: 30,
                                 borderRadius: activeButton === "Reviews" ? 50 : 0,
                                 backgroundColor: activeButton === "Reviews" ? "#2467EC" : "transparent"
                             }}
@@ -241,9 +242,9 @@ const CourseAccessScreen = () => {
                     {activeButton === "About" && (
                         <View
                             style={{
-                                marginHorizontal: 16,
+                                marginHorizontal: 10,
                                 marginVertical: 25,
-                                paddingHorizontal: 10
+                                paddingHorizontal: 0
                             }}
                         >
                             <Text style={{ fontSize: 18, fontFamily: "Raleway_700Bold" }}>
@@ -283,7 +284,7 @@ const CourseAccessScreen = () => {
                         </View>
                     )}
                     {activeButton === "Q&A" && (
-                        <View style={{ flex: 1, margin: 15 }}>
+                        <View style={{ flex: 1 }}>
                             <View>
                                 <TextInput
                                     value={question}
@@ -310,7 +311,7 @@ const CourseAccessScreen = () => {
                                         onPress={() => OnHandleQuestionSubmit()}
                                     >
                                         <Text
-                                            style={{ color: "#FFF", fontSize: 18, fontWeight: "600" }}
+                                            style={{ color: "#FFF", fontSize: 16, fontWeight: "600" }}
                                         >
                                             Gửi câu hỏi
                                         </Text>
@@ -334,13 +335,13 @@ const CourseAccessScreen = () => {
                         </View>
                     )}
                     {activeButton === "Reviews" && (
-                        <View style={{ marginHorizontal: 16, marginVertical: 25 }}>
+                        <View style={{ marginHorizontal: 5, marginVertical: 25 }}>
                             {!reviewAvailable && (
                                 <View>
                                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                                         <Text
                                             style={{
-                                                fontSize: 18,
+                                                fontSize: 16,
                                                 paddingBottom: 10,
                                                 paddingLeft: 2,
                                                 paddingRight: 5
@@ -374,11 +375,11 @@ const CourseAccessScreen = () => {
                                             <Text
                                                 style={{
                                                     color: "#FFF",
-                                                    fontSize: 18,
+                                                    fontSize: 16,
                                                     fontWeight: "600"
                                                 }}
                                             >
-                                                Gửi đánh giá
+                                                Gửi Đánh giá
                                             </Text>
                                         </TouchableOpacity>
                                     </View>
