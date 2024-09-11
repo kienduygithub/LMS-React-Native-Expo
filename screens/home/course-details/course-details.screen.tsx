@@ -20,7 +20,7 @@ const CourseDetailsScreen = () => {
     const [isExpanded, setIsExpanded] = useState(false);
     const { item } = useLocalSearchParams();
     const courseData: CoursesType = JSON.parse(item as string);
-    const [courseInfo, setCourseInfo] = useState<CoursesType>(courseData);
+    const [courseInfo, setCourseInfo] = useState<CoursesType>();
     const [checkPurchased, setCheckPurchased] = useState(false);
 
     useEffect(() => {
@@ -32,7 +32,10 @@ const CourseDetailsScreen = () => {
     const LoadCourse = async () => {
         try {
             const response = await axios.get(`${URL_SERVER}/get-courses`);
-            const _data = response.data?.courses?.filter((item: CoursesType) => item._id === courseData._id);
+            const _data = response.data?.courses?.filter((item: any) => item._id === courseData._id)[0];
+            if (user?.courses.find((i: any) => i._id === _data._id)) {
+                setCheckPurchased(true);
+            }
             setCourseInfo(_data);
         } catch (error) {
             console.log(error);
@@ -48,10 +51,6 @@ const CourseDetailsScreen = () => {
             LoadCourse();
         }, [])
     )
-
-    useEffect(() => {
-        console.log(courseInfo?.reviews);
-    }, [courseInfo])
 
     const OnHandleAddToCart = async () => {
         const existingCartData = await AsyncStorage.getItem("cart");
@@ -348,7 +347,7 @@ const CourseDetailsScreen = () => {
                             {activeButton === "Reviews" && (
                                 <View style={{ marginVertical: 25 }}>
                                     <View style={{ rowGap: 25 }}>
-                                        {courseData?.reviews?.map(
+                                        {courseInfo?.reviews?.map(
                                             (item: ReviewType, index: number) => (
                                                 <ReviewCard item={item} key={index} />
                                             )
