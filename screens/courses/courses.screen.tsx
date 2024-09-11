@@ -126,7 +126,7 @@ const CoursesScreen = () => {
                                 <Zocial name="cloudapp" size={60} style={{ textAlign: "center" }} color="#ccc" />
                             </View>
                             <Text style={{ textAlign: "center", fontSize: 16 }}>
-                                Không có dữ liệu
+                                Không tồn tại dữ liệu
                             </Text>
                         </View>
                     )}
