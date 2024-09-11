@@ -2,11 +2,12 @@ import useUser from "@/hooks/useUser";
 import { Raleway_700Bold } from "@expo-google-fonts/raleway";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import UserImage from "@/assets/images/icons/User.png";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
     container: {
@@ -70,8 +71,14 @@ const HeaderComponent = () => {
     const { user } = useUser();
 
     useEffect(() => {
-        loadCartItems();
+        LoadCartItems();
     }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            LoadCartItems();
+        }, [])
+    );
 
     let [fontsLoaded, fontsError] = useFonts({
         Raleway_700Bold
@@ -81,9 +88,15 @@ const HeaderComponent = () => {
         return null;
     }
 
-    const loadCartItems = async () => {
-        const cart: any = await AsyncStorage.getItem("cart");
-        setCartItems(JSON.parse(cart));
+    const LoadCartItems = async () => {
+        try {
+            const cart: any = await AsyncStorage.getItem("cart");
+            if (cart) {
+                setCartItems(JSON.parse(cart));
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -106,7 +119,7 @@ const HeaderComponent = () => {
             </View>
             <TouchableOpacity
                 style={styles.bellButton}
-                onPress={() => console.log("Đi đến trang cart")}
+                onPress={() => router.push("/(routes)/cart")}
             >
                 <Feather name="shopping-bag" size={26} color={"black"} />
                 <View style={styles.bellContainer}>

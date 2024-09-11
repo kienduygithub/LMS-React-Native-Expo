@@ -96,7 +96,7 @@ const CourseDetailsScreen = () => {
                                             fontFamily: "Nunito_600SemiBold",
                                         }}
                                     >
-                                        {courseData?.ratings}
+                                        {courseData?.ratings?.toFixed(1)}
                                     </Text>
                                 </View>
                             </View>

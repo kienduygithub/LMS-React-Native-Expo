@@ -151,7 +151,7 @@ const CourseAccessScreen = () => {
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
                         <TouchableOpacity
-                            style={[styles.button, { backgroundColor: `${activeVideo === 0 && '#ccc'}` }]}
+                            style={[styles.button, { backgroundColor: `${activeVideo === 0 ? '#ccc' : '#2467EC'}` }]}
                             disabled={activeVideo === 0}
                             onPress={() => setActiveVideo(activeVideo - 1)}
                         >
@@ -392,7 +392,7 @@ const CourseAccessScreen = () => {
                             </View>
                         </View>
                     )}
-                </ScrollView>
+                </ScrollView >
             )}
         </>
     )

@@ -30,7 +30,6 @@ const ReviewCard = ({ item }: { item: ReviewType }) => {
                     </View>
                 </View>
             </View>
-            <Text>Review Card</Text>
         </View>
     )
 }

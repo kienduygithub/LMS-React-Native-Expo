@@ -61,7 +61,7 @@ export default function CourseCard({ item }: { item: CoursesType }) {
                         }}
                     >
                         <FontAwesome name="star" size={14} color={"#ffb800"} />
-                        <Text style={[styles.ratingText]}>{item?.ratings}</Text>
+                        <Text style={[styles.ratingText]}>{item?.ratings?.toFixed(1)}</Text>
                     </View>
                     <Text>{item.purchased} <FontAwesome5 name="user" size={14} color="black" /></Text>
                 </View>
