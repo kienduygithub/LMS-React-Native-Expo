@@ -207,10 +207,9 @@ const CourseDetailsScreen = () => {
                             <View
                                 style={{
                                     flexDirection: "row",
-                                    justifyContent: "center",
+                                    justifyContent: "space-between",
                                     alignItems: "center",
                                     marginTop: 25,
-                                    paddingHorizontal: 16,
                                     backgroundColor: "#E1E9F0",
                                     borderRadius: 50
                                 }}
@@ -218,7 +217,7 @@ const CourseDetailsScreen = () => {
                                 <TouchableOpacity
                                     style={{
                                         paddingVertical: 10,
-                                        paddingHorizontal: 36,
+                                        paddingHorizontal: 30,
                                         backgroundColor: activeButton === "About" ? "#2467EC" : "transparent",
                                         borderRadius: activeButton === "About" ? 50 : 0
                                     }}
@@ -255,7 +254,7 @@ const CourseDetailsScreen = () => {
                                 <TouchableOpacity
                                     style={{
                                         paddingVertical: 10,
-                                        paddingHorizontal: 36,
+                                        paddingHorizontal: 30,
                                         backgroundColor:
                                             activeButton === "Reviews" ? "#2467EC" : "transparent",
                                         borderRadius: activeButton === "Reviews" ? 50 : 0,
@@ -277,7 +276,6 @@ const CourseDetailsScreen = () => {
                                     style={{
                                         marginHorizontal: 16,
                                         marginVertical: 25,
-                                        paddingHorizontal: 10,
                                     }}
                                 >
                                     <Text style={{ fontSize: 18, fontFamily: "Raleway_700Bold" }}>
@@ -315,12 +313,12 @@ const CourseDetailsScreen = () => {
                                 </View>
                             )}
                             {activeButton === "Lessons" && (
-                                <View style={{ marginHorizontal: 16, marginVertical: 25 }}>
+                                <View style={{ marginVertical: 25 }}>
                                     <CourseLesson courseDetails={courseData} />
                                 </View>
                             )}
                             {activeButton === "Reviews" && (
-                                <View style={{ marginHorizontal: 16, marginVertical: 25 }}>
+                                <View style={{ marginVertical: 25 }}>
                                     <View style={{ rowGap: 25 }}>
                                         {courseData?.reviews?.map(
                                             (item: ReviewType, index: number) => (
