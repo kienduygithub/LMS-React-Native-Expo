@@ -53,16 +53,27 @@ const CourseDetailsScreen = () => {
     )
 
     const OnHandleAddToCart = async () => {
-        const existingCartData = await AsyncStorage.getItem("cart");
-        const cartData = existingCartData ? JSON.parse(existingCartData) : [];
-        const itemExists = cartData.some((item: any) => item._id === courseData._id)
-        console.log(cartData);
-        if (!itemExists) {
-            cartData.push(courseData);
-            await AsyncStorage.setItem("cart", JSON.stringify(cartData));
-        }
+        try {
+            const existingCartData = await AsyncStorage.getItem("cart");
+            const cartData = existingCartData ? JSON.parse(existingCartData) : [];
+            const accessToken = await AsyncStorage.getItem("access_token");
+            const refreshToken = await AsyncStorage.getItem("refresh_token");
+            let itemExists = cartData.some((item: any) => item._id === courseData._id);
 
-        router.push("/(routes)/cart");
+            if (!itemExists) {
+                cartData.unshift(courseData)
+                await AsyncStorage.setItem("cart", JSON.stringify(cartData));
+                await axios.put(`${URL_SERVER}/add-cart`, courseData, {
+                    headers: {
+                        "access-token": accessToken,
+                        "refresh-token": refreshToken
+                    }
+                });
+            }
+            router.push("/(routes)/cart");
+        } catch (error: any) {
+            console.log(error.message);
+        }
     }
 
     let [fontsLoaded, fontError] = useFonts({
