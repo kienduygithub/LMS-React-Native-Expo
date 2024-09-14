@@ -7,6 +7,7 @@ import { router } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import CourseCard from "./cards/course.card";
+import { Zocial } from "@expo/vector-icons";
 
 const AllCourses = () => {
     const [courses, setCourses] = useState<CoursesType[]>([]);
@@ -68,13 +69,21 @@ const AllCourses = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            <FlatList
-                ref={flatListRef}
-                data={courses}
-                showsHorizontalScrollIndicator={false}
-                keyExtractor={(item) => item._id + ""}
-                renderItem={({ item }) => <CourseCard item={item} key={item._id} />}
-            />
+            {courses.length > 0 && (
+                courses.map((item: any, index: number) => (
+                    <View key={index}>
+                        <CourseCard item={item} key={item._id} />
+                    </View>
+                ))
+            )}
+            {courses.length === 0 && (
+                <View style={{ flex: 1, marginTop: 10 }}>
+                    <View style={{ width: "100%" }}>
+                        <Zocial name="cloudapp" size={60} style={{ textAlign: "center" }} color="#ccc" />
+                    </View>
+                    <Text style={{ textAlign: 'center' }}>Không tồn tại dữ liệu</Text>
+                </View>
+            )}
         </View>
     )
 }

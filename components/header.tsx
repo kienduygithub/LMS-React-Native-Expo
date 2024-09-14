@@ -2,7 +2,7 @@ import useUser from "@/hooks/useUser";
 import { Raleway_700Bold } from "@expo-google-fonts/raleway";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import UserImage from "@/assets/images/icons/User.png";
 import { router } from "expo-router";
@@ -72,10 +72,6 @@ const HeaderComponent = () => {
     const [cartItems, setCartItems] = useState([]);
     const { user } = useUser();
 
-    // useEffect(() => {
-    //     LoadCartItems();
-    // }, []);
-
     useFocusEffect(
         useCallback(() => {
             LoadCartItems();
@@ -114,7 +110,8 @@ const HeaderComponent = () => {
                 <TouchableOpacity onPress={() => router.push("/(tabs)/profile")}>
                     <Image
                         style={styles.image}
-                        source={user?.avatar ? user.avatar : UserImage}
+                        // source={user?.avatar ? user.avatar.url : UserImage}
+                        source={UserImage}
                     />
                 </TouchableOpacity>
                 <View>

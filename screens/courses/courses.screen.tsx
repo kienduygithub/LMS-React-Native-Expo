@@ -25,9 +25,7 @@ const CoursesScreen = () => {
     const FetchCategories = async () => {
         try {
             const response = await axios.get(`${URL_SERVER}/get-layout/Categories`);
-            console.log(response.data);
             setCategories(response.data.layout.categories);
-            // FetchCourses();
         } catch (error) {
             console.log(error);
         }
@@ -112,13 +110,11 @@ const CoursesScreen = () => {
                         </ScrollView>
                     </View>
                     {courses.length > 0 && (
-                        <View style={{ flex: 1 }}>
-                            <ScrollView style={{ marginHorizontal: 15, gap: 12, flex: 1 }}>
-                                {courses?.map((item: CoursesType, index: number) => (
-                                    <CourseCard item={item} key={index} />
-                                ))}
-                            </ScrollView>
-                        </View>
+                        <ScrollView style={{ marginHorizontal: 15, gap: 12, flex: 1 }}>
+                            {courses?.map((item: CoursesType, index: number) => (
+                                <CourseCard item={item} key={index} />
+                            ))}
+                        </ScrollView>
                     )}
                     {courses?.length === 0 && (
                         <View style={{ flexDirection: "column", alignItems: "center", width: "100%" }}>

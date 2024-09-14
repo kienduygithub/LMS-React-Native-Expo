@@ -87,7 +87,7 @@ const CourseLesson = ({ courseDetails }: { courseDetails: CoursesType }) => {
                                     <>
                                         {sectionVideos.map(
                                             (item: CourseDataType, index: number) => (
-                                                <View style={{ borderWidth: 1, borderColor: "#E1E2E5", borderRadius: 8 }}>
+                                                <View key={index} style={{ borderWidth: 1, borderColor: "#E1E2E5", borderRadius: 8 }}>
                                                     <View style={styles.itemContainer}>
                                                         <View style={styles.itemContainerWrapper}>
                                                             <View style={styles.itemTitleWrapper}>
