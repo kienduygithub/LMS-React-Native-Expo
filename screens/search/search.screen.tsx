@@ -104,14 +104,11 @@ const SearchScreen = () => {
                 </View>
             </View>
             <View>
-                <FlatList
-                    style={{ flex: 1, paddingHorizontal: 16 }}
-                    data={filteredCourses}
-                    keyExtractor={(item: CoursesType) => item._id}
-                    renderItem={
-                        ({ item }) => <CourseCard item={item} key={item._id} />
-                    }
-                />
+                {filteredCourses.length > 0 && filteredCourses.map((item: any, index: number) => (
+                    <View key={`${index}-c`}>
+                        <CourseCard item={item} />
+                    </View>
+                ))}
             </View>
             {filteredCourses.length === 0 && (
                 <View style={{ flex: 1, marginHorizontal: 18, marginTop: 20 }}>
