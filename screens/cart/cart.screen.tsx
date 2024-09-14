@@ -123,7 +123,16 @@ const CartScreen = () => {
                 }
             });
             setOrderSuccess(true);
-            await AsyncStorage.removeItem("cart");
+            let cart = await AsyncStorage.getItem('cart');
+            let currCart: any = JSON.parse(cart!);
+            currCart = currCart.filter((item: any) => item._id !== cartItems[0]._id);
+            await AsyncStorage.setItem("cart", JSON.stringify(currCart));
+            await axios.put(`${URL_SERVER}/delete-course`, cartItems[0], {
+                headers: {
+                    'access-token': accessToken,
+                    'refresh-token': refreshToken
+                }
+            })
         } catch (error) {
             console.log(error);
         }
@@ -197,7 +206,6 @@ const CartScreen = () => {
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                         <View style={{ flexDirection: "column", justifyContent: "space-between" }}>
                                             <View style={{ flexDirection: "row", alignItems: "center", marginRight: 16 }}>
-                                                {/* <Entypo name="dot-single" size={24} color={"gray"} /> */}
                                                 <Text style={{ fontSize: 16, color: "#808080", fontFamily: "Nunito_400Regular" }}>
                                                     {item.level}
                                                 </Text>
