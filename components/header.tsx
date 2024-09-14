@@ -8,6 +8,8 @@ import UserImage from "@/assets/images/icons/User.png";
 import { router } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
+import axios from "axios";
+import { URL_SERVER } from "@/utils/url";
 
 const styles = StyleSheet.create({
     container: {
@@ -70,9 +72,9 @@ const HeaderComponent = () => {
     const [cartItems, setCartItems] = useState([]);
     const { user } = useUser();
 
-    useEffect(() => {
-        LoadCartItems();
-    }, []);
+    // useEffect(() => {
+    //     LoadCartItems();
+    // }, []);
 
     useFocusEffect(
         useCallback(() => {
@@ -82,10 +84,17 @@ const HeaderComponent = () => {
 
     const LoadCartItems = async () => {
         try {
-            const cart: any = await AsyncStorage.getItem("cart");
-            if (cart) {
-                setCartItems(JSON.parse(cart));
-            }
+            const accessToken = await AsyncStorage.getItem("access_token");
+            const refreshToken = await AsyncStorage.getItem("refresh_token");
+            const response = await axios.get(`${URL_SERVER}/get-cart`, {
+                headers: {
+                    'access-token': accessToken,
+                    'refresh-token': refreshToken
+                }
+            })
+            const cart = response.data.coursesInCart;
+            await AsyncStorage.setItem("cart", JSON.stringify(cart));
+            setCartItems(cart);
         } catch (error) {
             console.log(error);
         }

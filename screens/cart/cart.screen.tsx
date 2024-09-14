@@ -8,6 +8,7 @@ import { FlatList, Image, RefreshControl, Text, TouchableOpacity, View } from "r
 import AccountConfirmation from "@/assets/images/account_confirmation.png";
 import EmptyCart from "@/assets/images/empty_cart.png";
 import { Entypo, FontAwesome } from "@expo/vector-icons";
+import { Toast } from "react-native-toast-notifications";
 const CartScreen = () => {
     const [cartItems, setCartItems] = useState<CoursesType[]>([]);
     const [refreshing, setRefreshing] = useState(false);
@@ -63,7 +64,9 @@ const CartScreen = () => {
                     'refresh-token': refreshToken
                 }
             })
-            console.log(response.data);
+            Toast.show(response.data.message, {
+                type: 'success'
+            })
         } catch (error: any) {
             console.log(error.message);
         }
