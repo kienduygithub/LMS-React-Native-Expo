@@ -32,11 +32,11 @@ export const commonStyles = StyleSheet.create({
         backgroundColor: "#2467Ec"
     },
     title: {
-        fontSize: hp("3.5%"),
+        fontSize: hp("2.5%"),
         textAlign: "center",
     },
     description: {
-        fontSize: hp("2.5%"),
+        fontSize: hp("1.8%"),
         color: "#575757",
         textAlign: "center",
     },

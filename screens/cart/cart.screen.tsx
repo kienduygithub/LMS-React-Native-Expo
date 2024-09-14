@@ -114,7 +114,9 @@ const CartScreen = () => {
             const accessToken = await AsyncStorage.getItem("access_token");
             const refreshToken = await AsyncStorage.getItem("refresh_token");
             let currCart: CoursesType[] = cartItems;
+            let paymentOrders: { _id: string }[] = [];
             currCart.forEach(async (course) => {
+                paymentOrders.push({ _id: course._id });
                 await axios.post(`${URL_SERVER}/create-mobile-order`, {
                     courseId: course._id,
                     payment_info: paymentResponse
@@ -132,10 +134,10 @@ const CartScreen = () => {
                 })
             })
             setOrderSuccess(true);
+            console.log(paymentOrders);
             currCart = [];
+            await AsyncStorage.setItem("paymented", JSON.stringify(paymentOrders));
             await AsyncStorage.setItem("cart", JSON.stringify(currCart));
-            // currCart = currCart.filter((item: any) => item._id !== cartItems[0]._id);
-            // await AsyncStorage.setItem("cart", JSON.stringify(currCart));
         } catch (error) {
             console.log(error);
         }

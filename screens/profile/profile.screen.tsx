@@ -34,6 +34,7 @@ const ProfileScreen = () => {
         await AsyncStorage.removeItem("access_token");
         await AsyncStorage.removeItem("refresh_token");
         await AsyncStorage.removeItem("cart");
+        await AsyncStorage.removeItem("paymented");
         router.push("/(routes)/sign-in");
     }
 
