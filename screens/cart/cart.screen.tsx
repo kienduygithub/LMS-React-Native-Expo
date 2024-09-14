@@ -113,26 +113,29 @@ const CartScreen = () => {
         try {
             const accessToken = await AsyncStorage.getItem("access_token");
             const refreshToken = await AsyncStorage.getItem("refresh_token");
-            await axios.post(`${URL_SERVER}/create-mobile-order`, {
-                courseId: cartItems[0]._id,
-                payment_info: paymentResponse
-            }, {
-                headers: {
-                    "access-token": accessToken,
-                    "refresh-token": refreshToken
-                }
-            });
-            setOrderSuccess(true);
-            let cart = await AsyncStorage.getItem('cart');
-            let currCart: any = JSON.parse(cart!);
-            currCart = currCart.filter((item: any) => item._id !== cartItems[0]._id);
-            await AsyncStorage.setItem("cart", JSON.stringify(currCart));
-            await axios.put(`${URL_SERVER}/delete-course`, cartItems[0], {
-                headers: {
-                    'access-token': accessToken,
-                    'refresh-token': refreshToken
-                }
+            let currCart: CoursesType[] = cartItems;
+            currCart.forEach(async (course) => {
+                await axios.post(`${URL_SERVER}/create-mobile-order`, {
+                    courseId: course._id,
+                    payment_info: paymentResponse
+                }, {
+                    headers: {
+                        "access-token": accessToken,
+                        "refresh-token": refreshToken
+                    }
+                });
+                await axios.put(`${URL_SERVER}/delete-course`, course, {
+                    headers: {
+                        'access-token': accessToken,
+                        'refresh-token': refreshToken
+                    }
+                })
             })
+            setOrderSuccess(true);
+            currCart = [];
+            await AsyncStorage.setItem("cart", JSON.stringify(currCart));
+            // currCart = currCart.filter((item: any) => item._id !== cartItems[0]._id);
+            // await AsyncStorage.setItem("cart", JSON.stringify(currCart));
         } catch (error) {
             console.log(error);
         }

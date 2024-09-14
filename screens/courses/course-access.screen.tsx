@@ -54,10 +54,6 @@ const CourseAccessScreen = () => {
         subscription();
     }, [])
 
-    useEffect(() => {
-        console.log(courseReviews);
-    }, [courseReviews])
-
     const FetchCourseContent = async () => {
         try {
             const accessToken = await AsyncStorage.getItem("access_token");
@@ -146,6 +142,7 @@ const CourseAccessScreen = () => {
         }
         return stars;
     }
+
     return (
         <>
             {isLoading ? (
@@ -333,13 +330,14 @@ const CourseAccessScreen = () => {
                                     ?.slice()
                                     ?.reverse()
                                     .map((item: CommentType, index: number) => (
-                                        <QuestionsCard
-                                            item={item}
-                                            key={index}
-                                            fetchCourseContent={FetchCourseContent}
-                                            courseData={data}
-                                            contentId={courseContentData[activeVideo]?._id}
-                                        />
+                                        <View key={`${index}-f`}>
+                                            <QuestionsCard
+                                                item={item}
+                                                fetchCourseContent={FetchCourseContent}
+                                                courseData={data}
+                                                contentId={courseContentData[activeVideo]?._id}
+                                            />
+                                        </View>
                                     ))}
                             </View>
                         </View>
@@ -397,7 +395,7 @@ const CourseAccessScreen = () => {
                             )}
                             <View style={{ rowGap: 25 }}>
                                 {courseReviews.map((item: ReviewType, index: number) => (
-                                    <View key={index}>
+                                    <View key={`${index}-e`}>
                                         <ReviewCard item={item} />
                                     </View>
                                 ))}
