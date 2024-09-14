@@ -49,12 +49,24 @@ const CartScreen = () => {
     }
 
     const OnHandleRemoveItem = async (item: any) => {
-        const existingCartData = await AsyncStorage.getItem("cart");
-        const cartData = existingCartData ? JSON.parse(existingCartData) : [];
-        const updatedCartData = cartData.filter((i: any) => i._id !== item._id);
-        console.log(cartData);
-        await AsyncStorage.setItem("cart", JSON.stringify(updatedCartData));
-        setCartItems(updatedCartData);
+        try {
+            const accessToken = await AsyncStorage.getItem("access_token");
+            const refreshToken = await AsyncStorage.getItem("refresh_token");
+            const existingCartData = await AsyncStorage.getItem("cart");
+            const cartData = existingCartData ? JSON.parse(existingCartData) : [];
+            const updatedCartData = cartData.filter((i: any) => i._id !== item._id);
+            await AsyncStorage.setItem("cart", JSON.stringify(updatedCartData));
+            setCartItems(updatedCartData);
+            const response = await axios.put(`${URL_SERVER}/delete-course`, item, {
+                headers: {
+                    'access-token': accessToken,
+                    'refresh-token': refreshToken
+                }
+            })
+            console.log(response.data);
+        } catch (error: any) {
+            console.log(error.message);
+        }
     }
 
     const OnHandlePayment = async () => {
@@ -108,7 +120,7 @@ const CartScreen = () => {
                 }
             });
             setOrderSuccess(true);
-            AsyncStorage.removeItem("cart");
+            await AsyncStorage.removeItem("cart");
         } catch (error) {
             console.log(error);
         }

@@ -63,7 +63,7 @@ const CourseDetailsScreen = () => {
             if (!itemExists) {
                 cartData.unshift(courseData)
                 await AsyncStorage.setItem("cart", JSON.stringify(cartData));
-                await axios.put(`${URL_SERVER}/add-cart`, courseData, {
+                await axios.put(`${URL_SERVER}/add-course`, courseData, {
                     headers: {
                         "access-token": accessToken,
                         "refresh-token": refreshToken
