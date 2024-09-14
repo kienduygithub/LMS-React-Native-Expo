@@ -360,7 +360,7 @@ const CourseDetailsScreen = () => {
                                     <View style={{ rowGap: 25 }}>
                                         {courseInfo?.reviews?.map(
                                             (item: ReviewType, index: number) => (
-                                                <View key={index}>
+                                                <View key={`${index}-b`}>
                                                     <ReviewCard item={item} />
                                                 </View>
                                             )
