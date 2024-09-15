@@ -30,10 +30,17 @@ const CourseDetailsScreen = () => {
     }, [user])
 
     const LoadCourse = async () => {
+        let paymented: { _id: string }[] = [];
         try {
+            let data = await AsyncStorage.getItem("paymented");
+            if (data) {
+                paymented = JSON.parse(data);
+            }
             const response = await axios.get(`${URL_SERVER}/get-courses`);
-            const _data = response.data?.courses?.filter((item: any) => item._id === courseData._id)[0];
-            if (user?.courses.find((i: any) => i._id === _data._id)) {
+            const _data: CoursesType = response.data?.courses?.filter((item: any) => item._id === courseData._id)[0];
+            const isPaymentedCourse = paymented.some((item) => item._id === _data._id);
+            const isUserCourse = user?.courses.some((item: any) => item._id === _data._id);
+            if (isPaymentedCourse || isUserCourse) {
                 setCheckPurchased(true);
             }
             setCourseInfo(_data);
