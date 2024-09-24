@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start --port 19000",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android --port 19000",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll"
   },
@@ -13,6 +13,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@bounceapp/iframe": "^0.3.0",
     "@expo-google-fonts/nunito": "0.2.3",
     "@expo-google-fonts/raleway": "0.2.3",
     "@expo/vector-icons": "^14.0.2",
@@ -30,11 +31,13 @@
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
     "expo-system-ui": "~3.0.7",
+    "expo-video-player": "^2.2.0",
     "expo-web-browser": "~13.0.3",
     "lms-client-app": "file:",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.74.5",
+    "react-native-ali-video-player": "^1.0.5",
     "react-native-animated-loader": "^1.0.0",
     "react-native-app-intro-slider": "4.0.4",
     "react-native-reanimated": "~3.10.1",
@@ -44,8 +47,10 @@
     "react-native-screens": "3.31.1",
     "react-native-swiper": "1.6.0",
     "react-native-toast-notifications": "3.4.0",
-    "react-native-web": "~0.19.10",
-    "react-native-webview": "13.10.2"
+    "react-native-video": "^6.6.2",
+    "react-native-webview": "13.8.6",
+    "vdocipher-rn-bridge": "^1.20.8",
+    "expo-camera": "~15.0.16"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

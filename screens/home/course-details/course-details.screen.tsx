@@ -11,9 +11,13 @@ import { useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 import { useFonts } from "expo-font";
 import { router, useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native"
-
+import WebView from "react-native-webview";
+// import { VdoPlayerView } from "vdocipher-rn-bridge";
+// import WebView from "react-native-webview";
+// import Video, { VideoRef } from 'react-native-video';
+// import { VdoPlayerView } from 'vdocipher-rn-bridge';
 const CourseDetailsScreen = () => {
     const [activeButton, setActiveButton] = useState("About");
     const { user, loading } = useUser();
@@ -29,6 +33,11 @@ const CourseDetailsScreen = () => {
         }
     }, [user])
 
+    const [videoData, setVideoData] = useState({
+        otp: "",
+        playbackInfo: ""
+    });
+
     const LoadCourse = async () => {
         let paymented: { _id: string }[] = [];
         try {
@@ -38,6 +47,17 @@ const CourseDetailsScreen = () => {
             }
             const response = await axios.get(`${URL_SERVER}/get-courses`);
             const _data: CoursesType = response.data?.courses?.filter((item: any) => item._id === courseData._id)[0];
+            axios.post(`${URL_SERVER}/getVdoCipherOTP`, {
+                videoId: _data.demoUrl
+            })
+                .then((res) => {
+                    console.log(res);
+                    setVideoData({
+                        otp: res?.data.otp,
+                        playbackInfo: res?.data.playbackInfo
+                    });
+                })
+
             const isPaymentedCourse = paymented.some((item) => item._id === _data._id);
             const isUserCourse = user?.courses.some((item: any) => item._id === _data._id);
             if (isPaymentedCourse || isUserCourse) {
@@ -95,7 +115,15 @@ const CourseDetailsScreen = () => {
     if (!fontsLoaded && !fontError) {
         return null;
     }
-
+    const embedInfo = {
+        otp: '______',
+        playbackInfo: '______',
+        playerConfig: '______' // <-- player id goes here
+    };
+    useEffect(() => {
+        embedInfo.otp = videoData.otp;
+        embedInfo.playbackInfo = videoData.playbackInfo;
+    }, [videoData.otp])
     return (
         <>
             {loading ? (
@@ -149,6 +177,23 @@ const CourseDetailsScreen = () => {
                                 source={{ uri: courseData?.thumbnail.url! }}
                                 style={{ width: "100%", height: 230, borderRadius: 6 }}
                             />
+                            <View style={{ width: "100%", aspectRatio: 18 / 9, borderRadius: 10 }}>
+                                <WebView
+                                    source={{ uri: `https://player.vdocipher.com/v2/?otp=${videoData.otp}&playbackInfo=${videoData.playbackInfo}&player=yhSoI6rb4DYEOhvk` }}
+                                    allowsFullscreenVideo={true}
+                                    javaScriptEnabled={true}
+                                    originWhitelist={['*']}
+                                />
+                                {/* <WebView
+                                    source={{ uri: `Snaptik.app_7348794117838687506.mp4` }}
+                                    allowsFullscreenVideo={true}
+                                    javaScriptEnabled={true}
+                                    originWhitelist={['*']}
+                                /> */}
+                                {/* <VdoPlayerView
+                                    embedInfo={embedInfo}
+                                /> */}
+                            </View>
                             <Text
                                 style={{
                                     marginHorizontal: 16,

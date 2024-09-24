@@ -6,13 +6,13 @@ import { URL_SERVER } from "@/utils/url";
 import { FontAwesome } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { Toast } from "react-native-toast-notifications";
 import WebView from "react-native-webview";
-
+import { Iframe } from "@bounceapp/iframe";
 const styles = StyleSheet.create({
     button: {
         width: widthPercentageToDP("40%"),
@@ -41,18 +41,36 @@ const CourseAccessScreen = () => {
     const [review, setReview] = useState("");
     const [reviewAvailable, setReviewAvailable] = useState(false);
 
+    const [videoData, setVideoData] = useState({
+        otp: "",
+        playbackInfo: ""
+    });
+
     useEffect(() => {
-        const subscription = async () => {
-            await FetchCourseContent();
-            const isReviewAvailable = courseReviews.find(
-                (i: any) => i.user._id === user?._id
-            )
-            if (isReviewAvailable) {
-                setReviewAvailable(true);
-            }
+        if (courseContentData[activeVideo]) {
+            axios.post(`${URL_SERVER}/getVdoCipherOTP`, {
+                videoId: courseContentData[activeVideo].videoUrl
+            })
+                .then((res) => {
+                    setVideoData(res.data);
+                })
         }
-        subscription();
-    }, [])
+    }, [courseContentData[activeVideo]])
+
+    useFocusEffect(
+        useCallback(() => {
+            const subscription = async () => {
+                await FetchCourseContent();
+                const isReviewAvailable = courseReviews.find(
+                    (i: any) => i.user._id === user?._id
+                )
+                if (isReviewAvailable) {
+                    setReviewAvailable(true);
+                }
+            }
+            subscription();
+        }, [])
+    )
 
     const FetchCourseContent = async () => {
         try {
@@ -150,9 +168,21 @@ const CourseAccessScreen = () => {
             ) : (
                 <ScrollView style={{ flex: 1, padding: 10 }}>
                     <View style={{ width: "100%", aspectRatio: 18 / 9, borderRadius: 10 }}>
+                        {/* <Iframe
+                            uri={`https://player.vdocipher.com/v2/?otp=${videoData?.otp}&playbackInfo=${videoData.playbackInfo}&player=yhSoI6rb4DYEOhvk`}
+                            style={{ flex: 1 }}
+                        /> */}
+                        {/* <Iframe
+                            uri={courseContentData[activeVideo].videoUrl!}
+                            style={{ flex: 1 }}
+
+                        /> */}
                         <WebView
                             source={{ uri: courseContentData[activeVideo]?.videoUrl! }}
                             allowsFullscreenVideo={true}
+                            javaScriptEnabled={true}
+                            originWhitelist={['*']}
+                            contentMode="mobile"
                         />
                     </View>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
@@ -395,7 +425,7 @@ const CourseAccessScreen = () => {
                             )}
                             <View style={{ rowGap: 25 }}>
                                 {courseReviews.map((item: ReviewType, index: number) => (
-                                    <View key={`${index}-e`}>
+                                    <View key={`${index}-efa`}>
                                         <ReviewCard item={item} />
                                     </View>
                                 ))}

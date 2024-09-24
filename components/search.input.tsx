@@ -131,7 +131,7 @@ const SearchInput = ({ homeScreen }: { homeScreen?: boolean }) => {
                 <View style={styles.searchContainer}>
                     <TextInput
                         style={[styles.input, { fontFamily: 'Nunito_700Bold' }]}
-                        placeholder="Search"
+                        placeholder="Tìm kiếm khóa học"
                         onChangeText={(v) => setValue(v)}
                         placeholderTextColor={"#C67CCC"}
                     />
